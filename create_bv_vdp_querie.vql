@@ -1,0 +1,114 @@
+# Generated with Denodo Platform 8.0 20230914 hotfix 20231006.
+
+CREATE OR REPLACE FOLDER '/90 Operation View' ;
+
+CREATE OR REPLACE FOLDER '/90 operation view/vdp log' ;
+
+DROP DATASOURCE DF IF EXISTS ds_vdp_queries CASCADE;
+
+CREATE DATASOURCE DF ds_vdp_queries
+    FOLDER = '/90 operation view/vdp log'
+    ROUTE LOCAL 'LocalConnection' 'E:/Denodo/DenodoPlatform8.0/tools/monitor/denodo-monitor/logs/' FILENAMEPATTERN = 'vdp-queries.log(.*)'
+    IGNORE_ROUTE_ERRORS = TRUE
+    COLUMNDELIMITER = '\t'
+    ENDOFLINEDELIMITER = '\n'
+    HEADER = FALSE;
+
+DROP WRAPPER DF IF EXISTS vdp_queries CASCADE;
+
+CREATE WRAPPER DF vdp_queries
+    FOLDER = '/90 operation view/vdp log'
+    DATASOURCENAME=ds_vdp_queries
+    OUTPUTSCHEMA (
+        servername = 'Column0',
+        host = 'Column1',
+        port = 'Column2',
+        id = 'Column3',
+        query_database = 'Column4',
+        username = 'Column5',
+        notificationtype = 'Column6',
+        sessionid = 'Column7',
+        starttime = 'Column8',
+        endtime = 'Column9',
+        duration = 'Column10',
+        waitingtime = 'Column11',
+        numrows = 'Column12',
+        state = 'Column13',
+        completed = 'Column14',
+        cache = 'Column15',
+        query = 'Column16',
+        requesttype = 'Column17',
+        elements = 'Column18',
+        useragent = 'Column19',
+        accessinterface = 'Column20',
+        clientip = 'Column21',
+        transactionid = 'Column22',
+        webservicename = 'Column23'
+    );
+
+DROP VIEW IF EXISTS bv_vdp_queries CASCADE;
+
+CREATE TABLE bv_vdp_queries I18N us_pst (
+        servername:text,
+        host:text,
+        port:text,
+        id:text,
+        query_database:text,
+        username:text,
+        notificationtype:text,
+        sessionid:text,
+        starttime:timestamp,
+        endtime:timestamp,
+        duration:double,
+        waitingtime:text,
+        numrows:long,
+        state:text,
+        completed:text,
+        cache:text,
+        query:text,
+        requesttype:text,
+        elements:text,
+        useragent:text,
+        accessinterface:text,
+        clientip:text,
+        transactionid:text,
+        webservicename:text
+    )
+    FOLDER = '/90 operation view/vdp log'
+    CACHE OFF
+    BATCHSIZEINCACHE DEFAULT
+    TIMETOLIVEINCACHE DEFAULT
+    ADD SEARCHMETHOD vdp_queries_new(
+        I18N us_pst
+        CONSTRAINTS (
+             ADD servername NOS ZERO ()
+             ADD host NOS ZERO ()
+             ADD port NOS ZERO ()
+             ADD id NOS ZERO ()
+             ADD query_database NOS ZERO ()
+             ADD username NOS ZERO ()
+             ADD notificationtype NOS ZERO ()
+             ADD sessionid NOS ZERO ()
+             ADD starttime NOS ZERO ()
+             ADD endtime NOS ZERO ()
+             ADD duration NOS ZERO ()
+             ADD waitingtime NOS ZERO ()
+             ADD numrows NOS ZERO ()
+             ADD state NOS ZERO ()
+             ADD completed NOS ZERO ()
+             ADD cache NOS ZERO ()
+             ADD query NOS ZERO ()
+             ADD requesttype NOS ZERO ()
+             ADD elements NOS ZERO ()
+             ADD useragent NOS ZERO ()
+             ADD accessinterface NOS ZERO ()
+             ADD clientip NOS ZERO ()
+             ADD transactionid NOS ZERO ()
+             ADD webservicename NOS ZERO ()
+        )
+        OUTPUTLIST (accessinterface, cache, clientip, completed, duration, elements, endtime, host, id, notificationtype, numrows, port, query, query_database, requesttype, servername, sessionid, starttime, state, transactionid, useragent, username, waitingtime, webservicename
+        )
+        WRAPPER (df vdp_queries)
+    )
+    ATCACHE_THROUGH_VDP_ONLY;
+
