@@ -1,0 +1,112 @@
+# Generated with Denodo Platform 8.0 20230914 hotfix 20231006.
+
+CREATE OR REPLACE FOLDER '/90 Operation View' ;
+
+CREATE OR REPLACE FOLDER '/90 operation view/vdp log' ;
+
+DROP DATASOURCE DF IF EXISTS ds_vdp_queries CASCADE;
+
+CREATE DATASOURCE DF ds_vdp_queries
+    FOLDER = '/90 operation view/vdp log'
+    ROUTE LOCAL 'LocalConnection' 'E:/Denodo/DenodoPlatform8.0/tools/monitor/denodo-monitor/logs/' FILENAMEPATTERN = 'vdp-queries.log(.*)'
+    IGNORE_ROUTE_ERRORS = TRUE
+    COLUMNDELIMITER = '\t'
+    ENDOFLINEDELIMITER = '\n'
+    HEADER = FALSE;
+
+DROP WRAPPER DF IF EXISTS ds_vdp_queries CASCADE;
+
+CREATE WRAPPER DF ds_vdp_queries
+    FOLDER = '/90 operation view/vdp log'
+    DATASOURCENAME=ds_vdp_queries
+    OUTPUTSCHEMA (
+        "Column0" = 'Column0',
+        "Column1" = 'Column1',
+        "Column2" = 'Column2',
+        "Column3" = 'Column3',
+        "Column4" = 'Column4',
+        "Column5" = 'Column5',
+        "Column6" = 'Column6',
+        "Column7" = 'Column7',
+        "Column8" = 'Column8',
+        "Column9" = 'Column9',
+        "Column10" = 'Column10',
+        "Column11" = 'Column11',
+        "Column12" = 'Column12',
+        "Column13" = 'Column13',
+        "Column14" = 'Column14',
+        "Column15" = 'Column15',
+        "Column16" = 'Column16',
+        "Column17" = 'Column17',
+        "Column18" = 'Column18',
+        "Column19" = 'Column19',
+        "Column20" = 'Column20',
+        "Column21" = 'Column21',
+        "Column22" = 'Column22',
+        "Column23" = 'Column23'
+    );
+
+DROP VIEW IF EXISTS ds_vdp_queries CASCADE;
+
+CREATE TABLE ds_vdp_queries I18N us_pst (
+        "Column0":text,
+        "Column1":text,
+        "Column2":text,
+        "Column3":text,
+        "Column4":text,
+        "Column5":text,
+        "Column6":text,
+        "Column7":text,
+        "Column8":text,
+        "Column9":text,
+        "Column10":text,
+        "Column11":text,
+        "Column12":text,
+        "Column13":text,
+        "Column14":text,
+        "Column15":text,
+        "Column16":text,
+        "Column17":text,
+        "Column18":text,
+        "Column19":text,
+        "Column20":text,
+        "Column21":text,
+        "Column22":text,
+        "Column23":text
+    )
+    FOLDER = '/90 operation view/vdp log'
+    CACHE OFF
+    TIMETOLIVEINCACHE DEFAULT
+    ADD SEARCHMETHOD ds_vdp_queries(
+        I18N us_pst
+        CONSTRAINTS (
+             ADD "Column0" NOS ZERO ()
+             ADD "Column1" NOS ZERO ()
+             ADD "Column2" NOS ZERO ()
+             ADD "Column3" NOS ZERO ()
+             ADD "Column4" NOS ZERO ()
+             ADD "Column5" NOS ZERO ()
+             ADD "Column6" NOS ZERO ()
+             ADD "Column7" NOS ZERO ()
+             ADD "Column8" NOS ZERO ()
+             ADD "Column9" NOS ZERO ()
+             ADD "Column10" NOS ZERO ()
+             ADD "Column11" NOS ZERO ()
+             ADD "Column12" NOS ZERO ()
+             ADD "Column13" NOS ZERO ()
+             ADD "Column14" NOS ZERO ()
+             ADD "Column15" NOS ZERO ()
+             ADD "Column16" NOS ZERO ()
+             ADD "Column17" NOS ZERO ()
+             ADD "Column18" NOS ZERO ()
+             ADD "Column19" NOS ZERO ()
+             ADD "Column20" NOS ZERO ()
+             ADD "Column21" NOS ZERO ()
+             ADD "Column22" NOS ZERO ()
+             ADD "Column23" NOS ZERO ()
+        )
+        OUTPUTLIST ("Column0", "Column1", "Column10", "Column11", "Column12", "Column13", "Column14", "Column15", "Column16", "Column17", "Column18", "Column19", "Column2", "Column20", "Column21", "Column22", "Column23", "Column3", "Column4", "Column5", "Column6", "Column7", "Column8", "Column9"
+        )
+        WRAPPER (df ds_vdp_queries)
+    );
+
