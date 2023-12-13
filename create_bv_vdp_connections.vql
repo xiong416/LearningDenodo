@@ -1,0 +1,93 @@
+# Generated with Denodo Platform 8.0 20230914 hotfix 20231006.
+
+CREATE OR REPLACE FOLDER '/90 Operation View' ;
+
+CREATE OR REPLACE FOLDER '/90 operation view/vdp log' ;
+
+DROP DATASOURCE DF IF EXISTS ds_vdp_connections CASCADE;
+
+CREATE DATASOURCE DF ds_vdp_connections
+    FOLDER = '/90 operation view/vdp log'
+    ROUTE LOCAL 'LocalConnection' 'E:/Denodo/DenodoPlatform8.0/tools/monitor/denodo-monitor/logs' FILENAMEPATTERN = 'vdp-connections.log(.*)'
+    COLUMNDELIMITER = '\t'
+    ENDOFLINEDELIMITER = '\n'
+    HEADER = FALSE;
+
+DROP WRAPPER DF IF EXISTS vdp_connections CASCADE;
+
+CREATE WRAPPER DF vdp_connections
+    FOLDER = '/90 operation view/vdp log'
+    DATASOURCENAME=ds_vdp_connections
+    OUTPUTSCHEMA (
+        servername = 'Column0',
+        host = 'Column1',
+        port = 'Column2',
+        notificationtype = 'Column3',
+        connectionid = 'Column4',
+        connectionstarttime = 'Column5',
+        connectionendtime = 'Column6',
+        clientip = 'Column7',
+        useragent = 'Column8',
+        accessinterface = 'Column9',
+        sessionid = 'Column10',
+        sessionstarttime = 'Column11',
+        sessionendtime = 'Column12',
+        login = 'Column13',
+        databasename = 'Column14',
+        webservicename = 'Column15',
+        jmxqueuename = 'Column16',
+        intermediateclientip = 'Column17'
+    );
+
+DROP VIEW IF EXISTS bv_vdp_connections CASCADE;
+
+CREATE TABLE bv_vdp_connections I18N us_pst (
+        servername:text,
+        host:text,
+        port:text,
+        notificationtype:text,
+        connectionid:text,
+        connectionstarttime:timestamp,
+        connectionendtime:timestamp,
+        clientip:text,
+        useragent:text,
+        accessinterface:text,
+        sessionid:text,
+        sessionstarttime:timestamp,
+        sessionendtime:timestamp,
+        login:text,
+        databasename:text,
+        webservicename:text,
+        jmxqueuename:text,
+        intermediateclientip:text
+    )
+    FOLDER = '/90 operation view/vdp log'
+    CACHE OFF
+    TIMETOLIVEINCACHE DEFAULT
+    ADD SEARCHMETHOD vdp_connections(
+        I18N us_pst
+        CONSTRAINTS (
+             ADD servername NOS ZERO ()
+             ADD host NOS ZERO ()
+             ADD port NOS ZERO ()
+             ADD notificationtype NOS ZERO ()
+             ADD connectionid NOS ZERO ()
+             ADD connectionstarttime NOS ZERO ()
+             ADD connectionendtime NOS ZERO ()
+             ADD clientip NOS ZERO ()
+             ADD useragent NOS ZERO ()
+             ADD accessinterface NOS ZERO ()
+             ADD sessionid NOS ZERO ()
+             ADD sessionstarttime NOS ZERO ()
+             ADD sessionendtime NOS ZERO ()
+             ADD login NOS ZERO ()
+             ADD databasename NOS ZERO ()
+             ADD webservicename NOS ZERO ()
+             ADD jmxqueuename NOS ZERO ()
+             ADD intermediateclientip NOS ZERO ()
+        )
+        OUTPUTLIST (accessinterface, clientip, connectionendtime, connectionid, connectionstarttime, databasename, host, intermediateclientip, jmxqueuename, login, notificationtype, port, servername, sessionendtime, sessionid, sessionstarttime, useragent, webservicename
+        )
+        WRAPPER (df vdp_connections)
+    );
+
